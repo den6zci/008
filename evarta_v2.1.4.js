@@ -234,7 +234,7 @@ function appendSearchElement() {
     searchContainer.style.transformOrigin = 'top right';
     const optionsContainer = document.createElement('div');
     optionsContainer.id = 'optionsContainer';
-    optionsContainer.style.color = '#fff';
+    optionsContainer.style.backgroundColor = '#fff';
     optionsContainer.style.fontSize = 'smaller';
     searchContainer.appendChild(optionsContainer);
 }
