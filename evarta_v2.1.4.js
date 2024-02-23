@@ -271,6 +271,11 @@ document.addEventListener("click", function (event) {
                 const listItem = document.createElement('div');
                 listItem.textContent = option;
                 listItem.classList.add('option');
+                // Додаємо обробник кліку для підстановки значення в поле вводу
+                listItem.addEventListener('click', function () {
+                    event.target.value = option;
+                    optionsContainer.innerHTML = '';
+                });
             });
         } else {
             // Створюємо випадаючий список по замовчуванні
@@ -279,14 +284,13 @@ document.addEventListener("click", function (event) {
                 const listItem = document.createElement('div');
                 listItem.textContent = option;
                 listItem.classList.add('option');
+                // Додаємо обробник кліку для підстановки значення в поле вводу
+                listItem.addEventListener('click', function () {
+                    event.target.value = option;
+                    optionsContainer.innerHTML = '';
+                });
             });
         }
-
-        // Додаємо обробник кліку для підстановки значення в поле вводу
-        listItem.addEventListener('click', function () {
-            event.target.value = option;
-            optionsContainer.innerHTML = '';
-        });
         // Додаємо елемент випадаючого списку до DOM
         optionsContainer.appendChild(listItem);
     }
