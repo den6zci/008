@@ -276,6 +276,8 @@ document.addEventListener("click", function (event) {
                     event.target.value = option;
                     optionsContainer.innerHTML = '';
                 });
+                // Додаємо елемент випадаючого списку до DOM
+                optionsContainer.appendChild(listItem);
             });
         } else {
             // Створюємо випадаючий список по замовчуванні
@@ -289,10 +291,10 @@ document.addEventListener("click", function (event) {
                     event.target.value = option;
                     optionsContainer.innerHTML = '';
                 });
+                // Додаємо елемент випадаючого списку до DOM
+                optionsContainer.appendChild(listItem);
             });
         }
-        // Додаємо елемент випадаючого списку до DOM
-        optionsContainer.appendChild(listItem);
     }
 
 });
