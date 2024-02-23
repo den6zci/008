@@ -177,25 +177,25 @@ async function clickLinks(selectedLinks, searchString) {
         let count = 0;
         const isTag = searchString.startsWith('#');
         const links = isTag
-        ? document.getElementsByClassName(searchString.slice(1))
-        : document.getElementsByClassName('eml');
+            ? document.getElementsByClassName(searchString.slice(1))
+            : document.getElementsByClassName('eml');
 
         for (const link of links) {
             const fileUrl = link.getAttribute("href");
             // Перевіряємо ключове слово (тег) або присутність слова в параграфі (лог)
             if (!isClickedLink(fileUrl, selectedLinks)
-                && (isTag || Array.from(link.parentNode.children).find((sibling) => sibling.tagName.toLowerCase() === 'p' && sibling.textContent.includes(searchString)))){            
-                    // Створюємо подію кліку
-                    const clickEvent = new MouseEvent('click', {
-                        bubbles: true,
-                        cancelable: true,
-                        view: window
-                    });
-                    // Чекаємо затримку перед кожним кліком
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                    // Симулюємо клік на посиланні
-                    link.dispatchEvent(clickEvent);
-                    count++;
+                && (isTag || Array.from(link.parentNode.children).find((sibling) => sibling.tagName.toLowerCase() === 'p' && sibling.textContent.includes(searchString)))){
+                // Створюємо подію кліку
+                const clickEvent = new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                });
+                // Чекаємо затримку перед кожним кліком
+                await new Promise(resolve => setTimeout(resolve, 100));
+                // Симулюємо клік на посиланні
+                link.dispatchEvent(clickEvent);
+                count++;
             }
         }
         console.log(count);
@@ -229,6 +229,9 @@ function appendSearchElement() {
     searchContainer.style.padding = '10px';
     searchContainer.style.transform = 'scale(1.5)';
     searchContainer.style.transformOrigin = 'top right';
+    const optionsContainer = document.createElement('div');
+    optionsContainer.id = 'optionsContainer';
+    searchContainer.appendChild(optionsContainer);
 }
 
 /*----------------------- Виконання -----------------------*/
@@ -248,7 +251,59 @@ document.addEventListener("click", function (event) {
         setClickedLinks(selectedLink, selectedLinks);
         target.style.color = "#b2b2b2";
     }
+
+    // Перевіряємо, чи елемент, який спричинив подію, є полем вводу searchInput
+    if (event.target && event.target.id === 'searchInput') {
+        const userInput = event.target.value;
+        // Отримуємо контейнер для випадаючого списку
+        const optionsContainer = document.getElementById('optionsContainer');
+        // Очищаємо попередні варіанти
+        optionsContainer.innerHTML = '';
+        // Якщо поле містить текст
+        if (userInput) {
+            const options = ['#eml', '#doc', '#img', 'для службового користування'];
+            // Фільтруємо варіанти за введеним текстом
+            const filteredOptions = options.filter(option =>
+                option.toLowerCase().startsWith(userInput.toLowerCase())
+            );
+            // Створюємо випадаючий список
+            filteredOptions.forEach(option => {
+                const listItem = document.createElement('div');
+                listItem.textContent = option;
+                listItem.classList.add('option');
+            });
+        } else {
+            // Створюємо випадаючий список по замовчуванні
+            const options = ['#eml', '#doc', '#img', 'для службового користування'];
+            options.forEach(option => {
+                const listItem = document.createElement('div');
+                listItem.textContent = option;
+                listItem.classList.add('option');
+            });
+        }
+
+        // Додаємо обробник кліку для підстановки значення в поле вводу
+        listItem.addEventListener('click', function () {
+            event.target.value = option;
+            optionsContainer.innerHTML = '';
+        });
+        // Додаємо елемент випадаючого списку до DOM
+        optionsContainer.appendChild(listItem);
+    }
+
 });
 
 // Додаємо елемент пошуку на сторінку
 appendSearchElement();
+
+// Додаємо обробник подій для сторінки при натисканні Enter
+document.body.addEventListener('keypress', function (e) {
+    // Перевіряємо, чи натиснута клавіша Enter
+    if (e.key === 'Enter') {
+        // Перевіряємо, чи це подія від searchInput
+        if (e.target && e.target.id === 'searchInput') {
+            // Викликаємо функцію performSearch
+            performSearch();
+        }
+    }
+});
