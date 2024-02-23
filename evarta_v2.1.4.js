@@ -217,6 +217,8 @@ function appendSearchElement() {
     const input = document.createElement('input');
     input.type = 'text';
     input.id = 'searchInput';
+    input.style.padding = '1px 4px';
+    input.style.minWidth = '200px';
     const button = document.createElement('button');
     button.textContent = '📥';
     button.onclick = performSearch;
@@ -227,10 +229,13 @@ function appendSearchElement() {
     searchContainer.style.top = '0';
     searchContainer.style.right = '0';
     searchContainer.style.padding = '10px';
+    searchContainer.style.margin = '20px';
     searchContainer.style.transform = 'scale(1.5)';
     searchContainer.style.transformOrigin = 'top right';
     const optionsContainer = document.createElement('div');
     optionsContainer.id = 'optionsContainer';
+    optionsContainer.style.color = '#fff';
+    optionsContainer.style.fontSize = 'smaller';
     searchContainer.appendChild(optionsContainer);
 }
 
@@ -261,7 +266,7 @@ document.addEventListener("click", function (event) {
         optionsContainer.innerHTML = '';
         // Якщо поле містить текст
         if (userInput) {
-            const options = ['#eml', '#doc', '#img', 'для службового користування'];
+            const options = ['для службового користування', '#eml', '#doc', '#img'];
             // Фільтруємо варіанти за введеним текстом
             const filteredOptions = options.filter(option =>
                 option.toLowerCase().startsWith(userInput.toLowerCase())
@@ -271,6 +276,7 @@ document.addEventListener("click", function (event) {
                 const listItem = document.createElement('div');
                 listItem.textContent = option;
                 listItem.classList.add('option');
+                listItem. style.borderBottom = 'solid 1px #5d7a8c';
                 // Додаємо обробник кліку для підстановки значення в поле вводу
                 listItem.addEventListener('click', function () {
                     event.target.value = option;
@@ -282,11 +288,12 @@ document.addEventListener("click", function (event) {
             });
         } else {
             // Створюємо випадаючий список по замовчуванні
-            const options = ['#eml', '#doc', '#img', 'для службового користування'];
+            const options = ['для службового користування', '#eml', '#doc', '#img'];
             options.forEach(option => {
                 const listItem = document.createElement('div');
                 listItem.textContent = option;
                 listItem.classList.add('option');
+                listItem. style.borderBottom = 'solid 1px #5d7a8c';
                 // Додаємо обробник кліку для підстановки значення в поле вводу
                 listItem.addEventListener('click', function () {
                     event.target.value = option;
