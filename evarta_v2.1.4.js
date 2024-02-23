@@ -240,6 +240,28 @@ function appendSearchElement() {
     searchContainer.appendChild(optionsContainer);
 }
 
+function appendFilteredOptions(event, filteredOptions) {
+    // Отримуємо контейнер для випадаючого списку
+    const optionsContainer = document.getElementById('optionsContainer');
+    // Очищаємо попередні варіанти
+    optionsContainer.innerHTML = '';
+    // Створюємо випадаючий список
+    filteredOptions.forEach(option => {
+        const listItem = document.createElement('div');
+        listItem.textContent = option;
+        listItem.classList.add('option');
+        listItem.style.borderBottom = 'solid 1px #5d7a8c';
+        // Додаємо обробник кліку для підстановки значення в поле вводу
+        listItem.addEventListener('click', function () {
+            event.target.value = option;
+            optionsContainer.innerHTML = '';
+            event.target.focus();
+        });
+        // Додаємо елемент випадаючого списку до DOM
+        optionsContainer.appendChild(listItem);
+    });
+}
+
 /*----------------------- Виконання -----------------------*/
 
 // Отримуємо перелік посилань які вже натискали
@@ -261,10 +283,6 @@ document.addEventListener("click", function (event) {
     // Перевіряємо, чи елемент, який спричинив подію, є полем вводу searchInput
     if (event.target && event.target.id === 'searchInput') {
         const userInput = event.target.value;
-        // Отримуємо контейнер для випадаючого списку
-        const optionsContainer = document.getElementById('optionsContainer');
-        // Очищаємо попередні варіанти
-        optionsContainer.innerHTML = '';
         // Якщо поле містить текст
         if (userInput) {
             const options = ['для службового користування', '#eml', '#doc', '#img'];
@@ -273,40 +291,12 @@ document.addEventListener("click", function (event) {
                 option.toLowerCase().startsWith(userInput.toLowerCase())
             );
             // Створюємо випадаючий список
-            filteredOptions.forEach(option => {
-                const listItem = document.createElement('div');
-                listItem.textContent = option;
-                listItem.classList.add('option');
-                listItem. style.borderBottom = 'solid 1px #5d7a8c';
-                // Додаємо обробник кліку для підстановки значення в поле вводу
-                listItem.addEventListener('click', function () {
-                    event.target.value = option;
-                    optionsContainer.innerHTML = '';
-                    event.target.focus();
-                });
-                // Додаємо елемент випадаючого списку до DOM
-                optionsContainer.appendChild(listItem);
-            });
+            appendFilteredOptions(event, filteredOptions);
         } else {
             // Створюємо випадаючий список по замовчуванні
-            const options = ['для службового користування', '#eml', '#doc', '#img'];
-            options.forEach(option => {
-                const listItem = document.createElement('div');
-                listItem.textContent = option;
-                listItem.classList.add('option');
-                listItem. style.borderBottom = 'solid 1px #5d7a8c';
-                // Додаємо обробник кліку для підстановки значення в поле вводу
-                listItem.addEventListener('click', function () {
-                    event.target.value = option;
-                    optionsContainer.innerHTML = '';
-                    event.target.focus();
-                });
-                // Додаємо елемент випадаючого списку до DOM
-                optionsContainer.appendChild(listItem);
-            });
+            appendFilteredOptions(event, ['для службового користування', '#eml', '#doc', '#img']);
         }
     }
-
 });
 
 // Додаємо елемент пошуку на сторінку
