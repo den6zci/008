@@ -275,6 +275,7 @@ document.addEventListener("click", function (event) {
                 listItem.addEventListener('click', function () {
                     event.target.value = option;
                     optionsContainer.innerHTML = '';
+                    event.target.focus();
                 });
                 // Додаємо елемент випадаючого списку до DOM
                 optionsContainer.appendChild(listItem);
@@ -290,6 +291,7 @@ document.addEventListener("click", function (event) {
                 listItem.addEventListener('click', function () {
                     event.target.value = option;
                     optionsContainer.innerHTML = '';
+                    event.target.focus();
                 });
                 // Додаємо елемент випадаючого списку до DOM
                 optionsContainer.appendChild(listItem);
