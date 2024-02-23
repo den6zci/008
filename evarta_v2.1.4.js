@@ -236,6 +236,7 @@ function appendSearchElement() {
     optionsContainer.id = 'optionsContainer';
     optionsContainer.style.backgroundColor = '#fff';
     optionsContainer.style.fontSize = 'smaller';
+    optionsContainer.style.cursor = 'default';
     searchContainer.appendChild(optionsContainer);
 }
 
